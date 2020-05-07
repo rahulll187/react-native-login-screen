@@ -1,3 +1,9 @@
+
+UPDATE -> 
+  1.Email Authentication Feature is Added!
+  2. database-> firebase
+
+
 1. Download Code
 
 
