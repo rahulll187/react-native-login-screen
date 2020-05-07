@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -7,8 +7,31 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class Signup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      pass: ''
+    }
+  }
+  signUp = () => {
+    const { email, pass } = this.state
+    try {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, pass)
+        .then(user => {
+          this.props.navigation.navigate('login');
+        });
+    }
+    catch (error) {
+      console.log('err');
+
+    }
+  }
   render() {
     return (
       <View style={styles.cantainer}>
@@ -16,9 +39,9 @@ export default class Signup extends Component {
         <View style={styles.subView}>
           <Text style={styles.subTxt}>Signup</Text>
           <TextInput style={styles.nameInput} placeholder="Username" />
-          <TextInput style={styles.nameInput} placeholder="Email" />
-          <TextInput style={styles.nameInput} placeholder="Password" />
-          <TouchableOpacity style={styles.btn}>
+          <TextInput style={styles.nameInput} placeholder="Email" onChangeText={(email => { this.setState({ email }) })} />
+          <TextInput style={styles.nameInput} placeholder="Password" onChangeText={(pass => { this.setState({ pass }) })} />
+          <TouchableOpacity style={styles.btn} onPress={this.signUp}>
             <Text style={styles.btnTxt}>SignUp</Text>
           </TouchableOpacity>
           <View style={styles.endView}>

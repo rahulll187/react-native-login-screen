@@ -1,23 +1,47 @@
 /* eslint-disable prettier/prettier */
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      pass: '',
+    }
+  }
+  logIn = () => {
+    const { email, pass } = this.state
+    try {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, pass)
+        .then(user => {
+          Alert.alert('Welcome')
+        })
+    }
+    catch (erroe) {
+      console.log('error');
+
+    }
+  }
   render() {
     return (
       <View style={styles.cantainer}>
         <Text style={styles.headerTxt}>WELCOME</Text>
         <View style={styles.subView}>
           <Text style={styles.subTxt}>Login</Text>
-          <TextInput style={styles.nameInput} placeholder="Email" />
-          <TextInput style={styles.nameInput} placeholder="Password" />
-          <TouchableOpacity style={styles.btn}>
+          <TextInput style={styles.nameInput} placeholder="Email" onChangeText={(email => { this.setState({ email }) })} />
+          <TextInput style={styles.nameInput} placeholder="Password" onChangeText={(pass => { this.setState({ pass }) })} />
+          <TouchableOpacity style={styles.btn} onPress={this.logIn}>
             <Text style={styles.btnTxt}>Login</Text>
           </TouchableOpacity>
           <View style={styles.endView}>
